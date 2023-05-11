@@ -1,0 +1,190 @@
+
+*{
+    color: white;
+}
+.form{
+    position: absolute;
+    top: 50%;
+    transform: translate(0%,-50%);
+    left: 15%;
+    color: white;
+    height: 440px;
+    width: 400px;
+    background-color: rgba(red, green, blue, 100);
+    border: 2px solid #696969;
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+}
+.form > form{
+    background-color: rgba(red, green, blue, 100);
+}
+footer{
+    height: 300px;
+    background-color: black;
+    text-align: center;
+    padding-top: 5%;
+}
+form{
+   
+   width: 80%;
+   height: 90px;
+    margin: auto;
+    padding-top: 30px;
+   
+}
+.popa{
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: transparent;
+    color: inherit;
+    outline: none;
+    border-bottom: 1px solid #0d7a9b;
+}
+.popa:focus{
+    border-bottom: 1px solid hsl(0, 100%, 50%);
+}
+.button{
+    width: 100%;
+    height: 50px;
+   background: #00ffff;
+   border: 2px solid #fff;
+   text-transform: uppercase;
+   border-radius: 20PX;
+   cursor: pointer;
+   color: rgb(0, 0, 0);
+}
+.katalog_item{
+    background-color: #353434;
+    width: 170px;
+    height: 230px;
+    margin-top: 30px;
+    display: inline-block;
+    margin-left: 4%;
+    margin-right: 4%;
+    border-radius: 20px;
+    color: #fff;
+}
+
+.katalog_item_img{
+    padding: 0% 0% 0% 0%;
+    border-radius: 20px 20px 0 0;
+    width: 100%;
+    height: 150px;
+    
+}
+.name{
+    margin-left: 10px;
+}
+body {
+    margin:0;
+    padding:0;
+     
+    }
+.Box{
+    font-family: 'Bebas Neue';
+    width: 100px;
+    
+    text-align:center; 
+    color: #fff;
+    display: inline-block;
+    border-radius: 20PX;
+}
+.Box:hover{
+    color: #000;
+    background-color: #00ffff;
+    transition: all .3s linear;
+    
+   
+}
+    a{
+      text-decoration: none;
+      color: #fff;
+    }
+    header{
+        min-height: 100vh;
+         background-color: blue;
+            background-image: url('../img/OIP.png');
+              background-size: cover;
+    }
+.diva{
+    text-align: center;
+    padding-top: 17px;
+}
+.ClassRapiraSh{
+    width: 48px;
+    height: 48px;
+    background-size: cover;
+    left: 4%;
+    position: absolute;
+    
+    color: #fff;
+    font-size: 30px;
+    background-image: url('/src/iconnet/logo.svg');
+}
+.div2{
+    background-color: #000;
+    position: fixed;
+    height: 50px;
+    text-align: center;
+    width: 100%;
+}
+.nav-item{ color: #fff; background-color: #00000f;  display: none;  width: 100px; height: 140px; }
+.nav{ position: fixed;  display: block;   width: 100%; top: 40px;}
+.nav2{width: 400px;margin-left: 33%; margin-right: auto;}
+.aboba{border-bottom: 2px solid #4d4747; padding: 6% 6%;  }
+.prodnav{
+    text-align: center;
+    margin-top: 10%;
+}
+.prodnav_item{
+    margin: 10px;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+.prodnav_item_active:hover{
+    background-color: #242424;
+}
+.prodnav_item_active{
+    background-color: #008b8b;
+}
+.frame{
+    
+    position: absolute;
+    right: 4%;
+    bottom: 0px;
+    width: 1200px;
+    height: 1200px;
+    
+    background-size: cover;
+    
+}
+.DwarfImg{
+    display: inline;
+    border-radius: 20px;
+    width: 50%;
+    height: 1000px;
+    background-size: cover;
+}
+.p1{
+    font-family: serif;
+    margin: 5%;
+    display: inline;
+    float: right;
+    opacity: 0;
+    transform: translateX(+10%);
+    transition: all 1s;
+    width: 60vh;
+    font-size: 28px;
+}
+.p11{
+    transform: translateX(0%);
+    opacity: 1;
+}
+.DP{
+    padding: 5%;
+    background-color: #393975;
+}
+
+

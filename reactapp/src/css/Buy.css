@@ -1,0 +1,103 @@
+.msg{
+    margin: 0px 30px 30px 30px;
+    font-size: 20px;
+    word-wrap: break-word;
+    width: 100%;
+    
+}
+.chat{
+    display: inline-block;
+    position: absolute;
+    height: 90vh;
+    width: 36%;
+    background-color: #424242;
+    
+}
+.chat:last-child{
+    background-color: rgb(0, 0, 0);
+}
+.chat > div >  input{
+    margin: 2% 5% 5% 1%;
+    
+    background-color: black;
+    width: 80%;
+    height: 100%;
+    outline: none;
+    font-size: 30px;
+    border: none;
+}
+
+#mass {
+    padding-top: 4%;
+    height: 87%;
+    width: 100%;
+    background-color: #424242;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.btn-send{
+    
+    border:0px;
+padding: 8px 10px;
+float: right;
+margin-right: 30px;
+color: #2082bb;
+font-size: 30px;
+background: #000000;
+cursor: pointer;
+}
+.buy{
+    display: inline-block;
+    background-color: #000;
+    width: 60%;
+    height: 100%;
+}
+.buy > h1{
+    margin-left: 5%;
+}
+.buy > div > input{
+    margin:  5% auto 10% 10%;
+    
+    background-color: #00ffff;
+    width: 200px;
+    height: 40px;
+    outline: none;
+    border: none;
+    
+    
+    
+}
+.Desc{
+    margin:  0% auto 0% auto;
+    background-color: #424242;
+    width: 80%;
+    min-height: 300px;
+}
+.buy > p, .Name{
+    margin-left: 10%;
+}
+.Name{
+    font-size: 30px;
+}
+.main-buypage{
+    background-image: url('../../1659745075_73-kartinkin-net-p-goluboi-fon-dlya-fotoshopa-krasivo-75.jpg');
+    display: flex;
+}
+.main-buy{
+    
+    margin: auto;
+    background-color: azure;
+    width: 90vw;
+    height: 90vh;
+}
+.buy_item_img{
+    height: 400px;
+    width: 80%;
+    border-radius: 20px 0px 0px 0px;
+}
+.NameMess{
+    color: #b8b8b8;
+    font-size: 13px;
+    
+}
+

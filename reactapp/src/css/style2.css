@@ -1,0 +1,78 @@
+div.katal{
+    
+    background-color: azure;
+}
+div.namekatalog{
+    height: 100px;
+    color: white;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+h1.namekatalog{
+    
+    color: rgb(255, 14, 14);
+    margin-left: auto;
+    margin-right: auto ;
+    padding-top: auto;
+    padding-bottom: auto;
+}
+.Network >  a {
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 50px;
+    
+}
+.facebook{
+    
+}
+.youtube{
+    
+}
+.Network{
+    
+    width: 100%;
+    text-align: center;
+    
+}
+.divde{
+
+    background-image: url('../img/OIP10.jpg');
+    width: 80%;
+    height: 300px;
+    margin: 200px auto 200px auto;
+    border-radius: 20px;
+    background-size: cover;
+}
+#ul{
+    
+    padding-top: 30px;
+}
+.divde2{
+   position: relative;
+    background-image: url('../img/OIP3.png');
+    width: 400px;
+    height: 400px;
+    float: right;
+    bottom: 100px;
+    background-size: cover;
+    transform: translateY(70%);
+    transition: all 1s;
+    opacity: 0;
+}
+.divde20{
+    transform: translateY(0%);
+    opacity: 1;
+}
+.lii{
+    font-family: serif;
+    opacity: 0;
+    transform: translateX(-30%);
+    transition: all 1s;
+}
+.lii2{
+    transform: translateX(0%);
+    opacity: 1;
+}
+
+

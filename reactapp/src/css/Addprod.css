@@ -1,0 +1,24 @@
+#category_prod{
+    overflow-x: auto;
+
+}
+form{
+    width: 80%;
+    background-color: rgba(red, green, blue, 100);
+    height: 70%;
+    padding: 20px 20px 20px 20px;
+    color: white;
+}
+.category_item{
+    font-size: 17px;
+    border-radius: 20px;
+    padding: 6px 8px;
+    background-color: #00cccc;
+    cursor: pointer;
+}
+.react-icons {
+    vertical-align: middle;
+    
+    
+  }
+  

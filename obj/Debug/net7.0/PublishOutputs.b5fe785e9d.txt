@@ -1,0 +1,12 @@
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\WEBAPP.exe
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\appsettings.Development.json
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\appsettings.json
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\WEBAPP.dll
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\WEBAPP.deps.json
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\WEBAPP.runtimeconfig.json
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\WEBAPP.pdb
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\Microsoft.EntityFrameworkCore.dll
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\Microsoft.EntityFrameworkCore.Abstractions.dll
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\Microsoft.EntityFrameworkCore.Relational.dll
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\MySqlConnector.dll
+F:\vs\WEBAPP\bin\Debug\net7.0\publish\Pomelo.EntityFrameworkCore.MySql.dll

@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "NsTb05VQocJ2V9jRS3njXQS/ZSgFFuIsk4eTg0YaCDc=",
+  "Source": "WEBAPP",
+  "BasePath": "_content/WEBAPP",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "WEBAPP\\wwwroot",
+      "Source": "WEBAPP",
+      "ContentRoot": "G:\\app\\WEBAPP\\wwwroot\\",
+      "BasePath": "_content/WEBAPP",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
