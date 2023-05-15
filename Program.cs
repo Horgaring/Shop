@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Npgsql.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.HttpOverrides;
 using System.Text.Json.Serialization;
 using Serilog;
-using Serilog.AspNetCore;
 using Serilog.Events;
 
 Log.Logger = new LoggerConfiguration()
