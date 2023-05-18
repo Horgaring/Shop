@@ -63,7 +63,7 @@ public class ProductController : Controller
     public async Task<IActionResult> remove(int id)
     {
         var email = HttpContext.User!.Claims.First(p => p.Type == "Email").Value;
-        var a = db.Accounts.AsNoTracking().AsQueryable().FirstOrDefault(p => p.Email == email);
+        var a = db.Accounts.AsNoTracking().FirstOrDefault(p => p.Email == email);
         Product? product = await db.product.Include(p => p.account).FirstOrDefaultAsync(p => p.Id == id);
         if(product == null || a == null)
             return BadRequest("пользователь или продукт не наден");

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NsTb05VQocJ2V9jRS3njXQS/ZSgFFuIsk4eTg0YaCDc=",
+  "Hash": "yDK1nMrrctzmM4AgTnn9F7mJZ6tVxtWtUnHlpY6/CeA=",
   "Source": "WEBAPP",
   "BasePath": "_content/WEBAPP",
   "Mode": "Default",
@@ -10,7 +10,7 @@
     {
       "Name": "WEBAPP\\wwwroot",
       "Source": "WEBAPP",
-      "ContentRoot": "G:\\app\\WEBAPP\\wwwroot\\",
+      "ContentRoot": "G:\\app\\web-app\\wwwroot\\",
       "BasePath": "_content/WEBAPP",
       "Pattern": "**"
     }

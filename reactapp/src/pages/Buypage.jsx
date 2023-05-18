@@ -17,7 +17,7 @@ const messageElement1= (name = 'Me',mess,right) =>{
     messageElement.innerHTML += mess;
     return messageElement;
 }
- const  Chat = () => {
+ const  Chat = (prop) => {
     
     const { id } = useParams();
     let [prod,setprod] = React.useState({});
@@ -35,7 +35,7 @@ const messageElement1= (name = 'Me',mess,right) =>{
         
         let message = document.getElementById("inp").value;
                 console.log(message + '||||||||||| send')
-                hubConnection.invoke("Send", message,conid,UserName)
+                hubConnection.invoke("Send", message,id,UserName)
                     .catch(function (err) {
                         console.log(123 + hubConnection.connectionId);
                         return console.log(err.toString());
@@ -52,7 +52,7 @@ const messageElement1= (name = 'Me',mess,right) =>{
                 document.getElementById("mass").appendChild(messageElement1(username,message,username == UserName?true:false));
             });
            
-            hubConnection.start().then(() => hubConnection.invoke("Enter",conid,parseInt( id)))
+            hubConnection.start().then(() => hubConnection.invoke("Enter",parseInt(id),prop?null:prop))
             .catch(function (err) {
                 return console.log(err.toString());
             });

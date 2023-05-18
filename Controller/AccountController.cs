@@ -6,19 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using Serilog;
 
 [Route("api/[controller]/")]
 [ApiController]
 public class AccountController : Controller{
     public dbcontextproduct db;
-    public ILogger<AccountController> log;
-    public AccountController(dbcontextproduct db,ILogger<AccountController> log){this.db = db; this.log = log;}
+    public Serilog.ILogger log = Log.Logger;
+    public AccountController(dbcontextproduct db) => this.db = db;
 
     
     [HttpPost("Sigin")]
     public JsonResult sigin([FromForm] AccountLogin pr){
         //log.LogInformation(HttpContext.User.Identity.IsAuthenticated.ToString());
-        log.LogInformation(pr.Email);
+        log.Information(pr.Email);
        var acc = db.Accounts.ToArray().FirstOrDefault(e => e.Email == pr.Email);
         var Refreshtoken = JWTModel.rnd();
         db.Refresh.Add(new JWTdb() {Refreshtoken = Refreshtoken,Time = DateTime.UtcNow});
@@ -55,8 +56,8 @@ public class AccountController : Controller{
     
     [HttpPost("reg")]
     public IActionResult register([FromForm] AccountDTO pr){ 
-        log.LogDebug("\t"+pr.Name + "\n"+ "\t"+pr.Email + "\n"+"\t"+pr.Password + "\n");
-        log.LogDebug( ("Valid "+ModelState.IsValid).ToString());
+        log.Debug("\t"+pr.Name + "\n"+ "\t"+pr.Email + "\n"+"\t"+pr.Password + "\n");
+        log.Debug( ("Valid "+ModelState.IsValid).ToString());
         if(!ModelState.IsValid){return BadRequest();}     
         db.Accounts.Add(Account.Create(pr));
         var Refreshtoken = JWTModel.rnd();

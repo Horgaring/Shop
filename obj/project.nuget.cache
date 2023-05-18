@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0/svargUk/zLJ+FcEJviPhZ3nkcKLab1Y6raero1b+/alzMGyu4fLk37NvQzx+HvukiKZquekenhGKGriQB1LA==",
+  "dgSpecHash": "AQuBS+d1cvdaVQtuc17qHSnuM14rI2M57/MLqiL0EEGb3iA7jHbFb+Q6B1/ZvgyOXvUmmPU8wESst2WsVXDZiQ==",
   "success": true,
-  "projectFilePath": "G:\\app\\WEBAPP\\WEBAPP.csproj",
+  "projectFilePath": "G:\\app\\web-app\\WEBAPP.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dimar\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\dimar\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.2\\microsoft.aspnetcore.authentication.jwtbearer.7.0.2.nupkg.sha512",

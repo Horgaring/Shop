@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\app\\WEBAPP\\WEBAPP.csproj": {}
+    "G:\\app\\web-app\\WEBAPP.csproj": {}
   },
   "projects": {
-    "G:\\app\\WEBAPP\\WEBAPP.csproj": {
+    "G:\\app\\web-app\\WEBAPP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\app\\WEBAPP\\WEBAPP.csproj",
+        "projectUniqueName": "G:\\app\\web-app\\WEBAPP.csproj",
         "projectName": "WEBAPP",
-        "projectPath": "G:\\app\\WEBAPP\\WEBAPP.csproj",
+        "projectPath": "G:\\app\\web-app\\WEBAPP.csproj",
         "packagesPath": "C:\\Users\\dimar\\.nuget\\packages\\",
-        "outputPath": "G:\\app\\WEBAPP\\obj\\",
+        "outputPath": "G:\\app\\web-app\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dimar\\AppData\\Roaming\\NuGet\\NuGet.Config"
