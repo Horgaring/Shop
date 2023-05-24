@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Mvc;
+using WEBAPP.Dbmodels;
 
 public static class Img{
     public static string save_img(IFormFile File,int Id_Prod,string prodname){
@@ -12,11 +14,11 @@ public static class Img{
         }
         return $"{Id_Prod}_{prodname}.webp";
     }
-    public static string save_img_acc(IFormFile File,int Id_acc,string prodname){
-        using (Stream fs = new FileStream($"./img/Account/{Id_acc}.webp",FileMode.Create)){
+    public static string save_img_acc(IFormFile File,string Email){
+        using (Stream fs = new FileStream($"./img/Account/{Email}.webp",FileMode.Create)){
             File.CopyTo(fs);
         }
-        return $"{Id_acc}.webp";
+        return $"{Email}.webp";
     }
 }
 public  class castombinder : IModelBinder
@@ -31,13 +33,11 @@ public class Habchat : Hub{
     dbcontextproduct db;
     Serilog.ILogger log = Log.Logger;
     IMemoryCache cache;
-    public Habchat(dbcontextproduct db ,IMemoryCache cache) => 
-        (this.db,this.cache) = (db,cache);
+     IAccountService maneg;
+    public Habchat(dbcontextproduct db ,IMemoryCache cache,[FromServices] IAccountService maneg) => 
+        (this.db,this.cache,this.maneg) = (db,cache,maneg);
     public override Task OnConnectedAsync(){
-        var email = Context.User!.Claims.First(p => p.Type == "Email").Value;
-        cache.Set(Context.ConnectionId,db.Accounts
-                .AsNoTracking()
-                .First(p => p.Email == email));
+        cache.Set(Context.ConnectionId,maneg.GetUser());
         return base.OnConnectedAsync();
     }
     public override Task OnDisconnectedAsync(Exception? exception){
@@ -46,10 +46,10 @@ public class Habchat : Hub{
     }
     [Authorize]
     public async Task Enter(int Id_Product, string? GroupName = null){
-        try{
+        
             ChatModel?  group;
             Account? a;
-            if(!cache.TryGetValue(Context.ConnectionAborted,out a)){
+            if(!cache.TryGetValue(Context.ConnectionId,out a)){
                 throw new NullReferenceException("Account not found");
             }
             if (GroupName != null){
@@ -59,7 +59,8 @@ public class Habchat : Hub{
             }
             else{
                 group = await db.Group
-                .Include(p => new {p.Users,p.Product})
+                .Include(p => p.Users)
+                .Include(p => p.Product)
                 .SingleOrDefaultAsync(p => p.Users.Contains(a) && p.productId == Id_Product);
             }
             if ( group == null && a != null) {
@@ -90,16 +91,13 @@ public class Habchat : Hub{
                 
                 
             }
-        }
-        catch (Exception e){
-          log.Error($"Chat error {e.Message}");
-        }
+        
+        
         
     }
     [Authorize]
     public async Task Send(string message,int Id_Product ,string username)
     {
-        var email = Context.User!.Claims.First(p => p.Type == "Email").Value;
         Account? a;
         if(!cache.TryGetValue(Context.ConnectionAborted,out a)){
             throw new NullReferenceException("Account not found");

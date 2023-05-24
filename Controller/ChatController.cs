@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WEBAPP.Dbmodels;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -11,15 +12,9 @@ class ChatController : Controller{
 
     [HttpGet()]
     [Authorize]
-    public IActionResult GetAllChat([FromServices] IRepository memoryCache){
-        
-        Account? User = null;
-        foreach (var item in HttpContext.User.Claims)
-            if( item.Type == "Email") 
-               User = db.Accounts.AsNoTracking().Include(p => p.Groups).FirstOrDefault(p => p.Email == item.Value);
+    public IActionResult GetAllChat( [FromServices] IAccountService maneg){
+        Account User = maneg.GetUser();
         return Json(User!.Groups!.Select(p => p.GroupName.ToString()));
-        
-        
     }
 
     

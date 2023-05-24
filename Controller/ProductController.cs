@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using WEBAPP.Dbmodels;
 
 [Route("api/[controller]/")]
 [ApiController]
@@ -35,21 +36,15 @@ public class ProductController : Controller
     [Authorize]
     [HttpPost("products")]
     [Consumes("multipart/form-data")]
-    public IActionResult add([FromQuery] string[] categ, [FromForm] Productmodel pr)
+    public IActionResult add([FromQuery] string[] categ, [FromForm] ProductRequest pr,[FromServices] IAccountService maneg)
     {
-        Account? User = null;
-        foreach (var item in HttpContext.User.Claims){
-            if( item.Type == "Name") 
-                User = db.Accounts.FirstOrDefault(p => p.Name == item.Value);
-        }
+        Account User = maneg.GetUser();
         List<Categ> categ2 = new();
-        if (User == null)
-            return Unauthorized();
         for (int i = 0; i < categ.Length; i++){
             categ2.Add(db.Categ.FirstOrDefault(p => p.Name == categ[i].Trim(new char[]{'"','/','%','&'}))!);
         }
-         Product pro = new Product(pr.Name){Description = pr.Description,Price = pr.Price,categ=categ2};
-        pro.account = User;
+        Product pro = new Product(pr.Name){Description = pr.Description,Price = pr.Price,categ=categ2};
+        pro.accountId = User.Id;
         pro.PathImage = Img.save_img(pr.File,User.Id,pr.Name);
         db.product.Add(pro);
         db.SaveChanges();  
@@ -60,10 +55,9 @@ public class ProductController : Controller
     [HttpDelete("products/{id?}")]
     [ProducesResponseType(typeof(string),400)]
     [ProducesResponseType(200)]
-    public async Task<IActionResult> remove(int id)
+    public async Task<IActionResult> remove(int id,[FromServices] IAccountService maneg)
     {
-        var email = HttpContext.User!.Claims.First(p => p.Type == "Email").Value;
-        var a = db.Accounts.AsNoTracking().FirstOrDefault(p => p.Email == email);
+        var a = maneg.GetUser();
         Product? product = await db.product.Include(p => p.account).FirstOrDefaultAsync(p => p.Id == id);
         if(product == null || a == null)
             return BadRequest("пользователь или продукт не наден");

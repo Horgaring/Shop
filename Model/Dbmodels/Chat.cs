@@ -1,3 +1,4 @@
+namespace WEBAPP.Dbmodels;
 public class ChatModel
 {
     public int Id { get; set; }

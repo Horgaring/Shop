@@ -5,10 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.ComponentModel.DataAnnotations;
 
-public class JWTModel{
+public class JWTRequest{
     public string? Accesstoken { get; set; }
     public string? Refreshtoken { get; set; }
-    public static string jwtcreator(string Name, string Email){
+    public static string jwtcreate(string Name, string Email){
         
         var Claims = new List<Claim> {new Claim("Name",Name),new Claim("Email",Email)};
         var jwt = new JwtSecurityToken(
@@ -23,9 +23,5 @@ public class JWTModel{
     public static string rnd() =>  Guid.NewGuid().ToString();
 
 }
-public class JWTdb{
-    [Key]
-    public string? Refreshtoken { get; set; }
-    public DateTime Time { get; set; }
-}
+
 

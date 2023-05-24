@@ -16,12 +16,42 @@ namespace WEBAPP.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-preview.2.23128.3")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Account", b =>
+            modelBuilder.Entity("AccountChatModel", b =>
+                {
+                    b.Property<int>("GroupsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("GroupsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("AccountChatModel");
+                });
+
+            modelBuilder.Entity("CategProduct", b =>
+                {
+                    b.Property<int>("categId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("productsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("categId", "productsId");
+
+                    b.HasIndex("productsId");
+
+                    b.ToTable("CategProduct");
+                });
+
+            modelBuilder.Entity("WEBAPP.Dbmodels.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,35 +88,7 @@ namespace WEBAPP.Migrations
                     b.ToTable("Accounts");
                 });
 
-            modelBuilder.Entity("AccountChatModel", b =>
-                {
-                    b.Property<int>("GroupsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("GroupsId", "UsersId");
-
-                    b.ToTable("AccountChatModel");
-                });
-
-            modelBuilder.Entity("AccountChatModel1", b =>
-                {
-                    b.Property<int>("GroupsId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("GroupsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("AccountChatModel1");
-                });
-
-            modelBuilder.Entity("Categ", b =>
+            modelBuilder.Entity("WEBAPP.Dbmodels.Categ", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -103,22 +105,7 @@ namespace WEBAPP.Migrations
                     b.ToTable("Categ");
                 });
 
-            modelBuilder.Entity("CategProduct", b =>
-                {
-                    b.Property<int>("categId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("productsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("categId", "productsId");
-
-                    b.HasIndex("productsId");
-
-                    b.ToTable("CategProduct");
-                });
-
-            modelBuilder.Entity("ChatModel", b =>
+            modelBuilder.Entity("WEBAPP.Dbmodels.ChatModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,8 +116,7 @@ namespace WEBAPP.Migrations
                     b.Property<Guid>("GroupName")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("User2Message")
-                        .IsRequired()
+                    b.Property<string>("UnreadMessages")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
                         .HasDefaultValue("");
@@ -151,7 +137,7 @@ namespace WEBAPP.Migrations
                     b.ToTable("Group");
                 });
 
-            modelBuilder.Entity("JWTdb", b =>
+            modelBuilder.Entity("WEBAPP.Dbmodels.JWTModel", b =>
                 {
                     b.Property<string>("Refreshtoken")
                         .HasColumnType("text");
@@ -164,7 +150,7 @@ namespace WEBAPP.Migrations
                     b.ToTable("Refresh");
                 });
 
-            modelBuilder.Entity("Product", b =>
+            modelBuilder.Entity("WEBAPP.Dbmodels.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -195,15 +181,15 @@ namespace WEBAPP.Migrations
                     b.ToTable("product");
                 });
 
-            modelBuilder.Entity("AccountChatModel1", b =>
+            modelBuilder.Entity("AccountChatModel", b =>
                 {
-                    b.HasOne("ChatModel", null)
+                    b.HasOne("WEBAPP.Dbmodels.ChatModel", null)
                         .WithMany()
                         .HasForeignKey("GroupsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Account", null)
+                    b.HasOne("WEBAPP.Dbmodels.Account", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -212,22 +198,22 @@ namespace WEBAPP.Migrations
 
             modelBuilder.Entity("CategProduct", b =>
                 {
-                    b.HasOne("Categ", null)
+                    b.HasOne("WEBAPP.Dbmodels.Categ", null)
                         .WithMany()
                         .HasForeignKey("categId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Product", null)
+                    b.HasOne("WEBAPP.Dbmodels.Product", null)
                         .WithMany()
                         .HasForeignKey("productsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ChatModel", b =>
+            modelBuilder.Entity("WEBAPP.Dbmodels.ChatModel", b =>
                 {
-                    b.HasOne("Product", "Product")
+                    b.HasOne("WEBAPP.Dbmodels.Product", "Product")
                         .WithMany()
                         .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -236,9 +222,9 @@ namespace WEBAPP.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Product", b =>
+            modelBuilder.Entity("WEBAPP.Dbmodels.Product", b =>
                 {
-                    b.HasOne("Account", "account")
+                    b.HasOne("WEBAPP.Dbmodels.Account", "account")
                         .WithMany("Products")
                         .HasForeignKey("accountId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -247,7 +233,7 @@ namespace WEBAPP.Migrations
                     b.Navigation("account");
                 });
 
-            modelBuilder.Entity("Account", b =>
+            modelBuilder.Entity("WEBAPP.Dbmodels.Account", b =>
                 {
                     b.Navigation("Products");
                 });

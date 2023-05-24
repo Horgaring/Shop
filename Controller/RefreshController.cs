@@ -1,6 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Mvc;
-
+using WEBAPP.Dbmodels;
 
 [Route("api/")]
 [ApiController]
@@ -13,7 +13,7 @@ public class RefreshController: Controller{
     
     
     [HttpPost("Oauth")]
-    public IActionResult refr([FromBody]JWTModel mod){
+    public IActionResult refr([FromBody]JWTRequest mod){
         var token = db.Refresh.FirstOrDefault(p => p.Refreshtoken == mod.Refreshtoken);
         
         if (token == null){
@@ -24,14 +24,14 @@ public class RefreshController: Controller{
         }
        if (!(token.Time.Day >= (DateTime.UtcNow - new TimeSpan(60,0,0,0)).Day)){
             db.Refresh.Remove(token);
-            var newrefresh = new JWTdb() {Time = DateTime.UtcNow, Refreshtoken = JWTModel.rnd()};
+            var newrefresh = new JWTModel() {Time = DateTime.UtcNow, Refreshtoken = JWTRequest.rnd()};
             db.Refresh.Add(newrefresh);
             db.SaveChanges();
             var handler = new JwtSecurityTokenHandler();
             var token4 = handler.ReadJwtToken(mod.Accesstoken);
             var claims = token4.Claims;
             
-            return Json( new JWTModel() {Accesstoken = JWTModel.jwtcreator(claims.First(p => p.Type == "Name").Value,claims.First(p => p.Type == "Email").Value)
+            return Json( new JWTRequest() {Accesstoken = JWTRequest.jwtcreate(claims.First(p => p.Type == "Name").Value,claims.First(p => p.Type == "Email").Value)
             , Refreshtoken = newrefresh.Refreshtoken  } );
        }
        if (token.Time.Day >= (DateTime.UtcNow - new TimeSpan(60,0,0,0)).Day)

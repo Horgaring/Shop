@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WEBAPP.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialC : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,6 +21,7 @@ namespace WEBAPP.Migrations
                     Name = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
+                    PathImage = table.Column<string>(type: "text", nullable: true),
                     Wallet = table.Column<int>(type: "integer", nullable: false, defaultValue: 0)
                 },
                 constraints: table =>
@@ -39,21 +40,6 @@ namespace WEBAPP.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categ", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Group",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    GroupName = table.Column<string>(type: "text", nullable: false),
-                    UserMessage = table.Column<string>(type: "text", nullable: true),
-                    User2Message = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Group", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -92,30 +78,6 @@ namespace WEBAPP.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AccountChatModel",
-                columns: table => new
-                {
-                    GroupsId = table.Column<int>(type: "integer", nullable: false),
-                    UsersId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AccountChatModel", x => new { x.GroupsId, x.UsersId });
-                    table.ForeignKey(
-                        name: "FK_AccountChatModel_Accounts_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "Accounts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AccountChatModel_Group_GroupsId",
-                        column: x => x.GroupsId,
-                        principalTable: "Group",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "CategProduct",
                 columns: table => new
                 {
@@ -139,6 +101,52 @@ namespace WEBAPP.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Group",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    productId = table.Column<int>(type: "integer", nullable: false),
+                    GroupName = table.Column<Guid>(type: "uuid", nullable: false),
+                    UserMessage = table.Column<string>(type: "text", nullable: false, defaultValue: ""),
+                    UnreadMessages = table.Column<string>(type: "text", nullable: true, defaultValue: "")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Group", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Group_product_productId",
+                        column: x => x.productId,
+                        principalTable: "product",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AccountChatModel",
+                columns: table => new
+                {
+                    GroupsId = table.Column<int>(type: "integer", nullable: false),
+                    UsersId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AccountChatModel", x => new { x.GroupsId, x.UsersId });
+                    table.ForeignKey(
+                        name: "FK_AccountChatModel_Accounts_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AccountChatModel_Group_GroupsId",
+                        column: x => x.GroupsId,
+                        principalTable: "Group",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AccountChatModel_UsersId",
                 table: "AccountChatModel",
@@ -154,6 +162,11 @@ namespace WEBAPP.Migrations
                 name: "IX_CategProduct_productsId",
                 table: "CategProduct",
                 column: "productsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Group_productId",
+                table: "Group",
+                column: "productId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_product_accountId",

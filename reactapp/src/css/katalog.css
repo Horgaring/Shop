@@ -2,7 +2,10 @@
     top: 0px;
     position: fixed;
     
-    width: 100%;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    
     background-color: rgba(0, 0, 0, 0);
     height: 60px;
     
@@ -13,12 +16,12 @@
 .text_catalog > ul{
     width: 100px;
     height: 80%;
-    margin-right: 7%;
+    
    
     
 }
 .button_filt{
-    background-color: #00ffff;
+    background-color: #0ea3a3;
     cursor: pointer;
     padding: 5px;
     border-radius: 0px 20px 20px 0px;
@@ -79,7 +82,7 @@
     width: 90px;
     height: 50px;
     border-radius: 20px;
-    background-color: #00ffff;
+    background-color: #0ea3a3;
 }
 @media (min-width: 1200px) {
     .katalog{
@@ -126,18 +129,19 @@
     margin-left: 2%;
     margin-right: 2%;
     background-color: #353434;
-    height: 80%;
-    font-size: 25px;
+    height: 20px;
+    font-size: 20px;
     width: 20%;
     border: 2px solid #0ea3a3;;
     outline: none;
 }
 .Categ > select{
+    
     margin: 0px auto  0px auto;
     margin-left: 2%;
     border: 2px solid #0ea3a3;;
     width: 200px;
-    height: 80%;
+    height: 25px;
     background-color: #353434;
     color: white;
     outline: none;
@@ -147,7 +151,7 @@
     height: 80%;
     float: left;
     border-radius: 20px;
-    background-color: #00ffff;
+    background-color: #0ea3a3;
     width: 10%;
     margin: 0px auto 0px auto;
 }

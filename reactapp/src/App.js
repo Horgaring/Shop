@@ -15,7 +15,7 @@ function App() {
          <Routes>
           <Route path="/" element = {<Main/>} />
           <Route path="/sigin" element = {<Sig/>} />
-          <Route path="/katalog/:id" element = {<Kata/>} />
+          <Route path="/katalog" element = {<Kata/>} />
           <Route path="/AddProd" element = {  <Prodadd/> } />
           <Route path="/Profile/:id" element = {  <Profile/> } />
           <Route path="/Buy/:id" element = {  <Buypage/> } />
@@ -26,5 +26,7 @@ function App() {
       
   );
 }
+
+
 
 export default App;

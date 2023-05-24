@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
-using Npgsql.EntityFrameworkCore;
+
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.Text.Json.Serialization;
 using Serilog;
 using Serilog.Events;
+
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -47,7 +48,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 });
 
 builder.Services.AddMemoryCache();
-builder.Services.AddSingleton<IRepository, GroupRepository>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSignalR(op => {
     if(builder.Environment.IsDevelopment()){
         op.EnableDetailedErrors = true;
@@ -58,6 +59,7 @@ builder.Host.UseSerilog((cbx,lc) =>lc
     .WriteTo.File("./Logs/log.txt",LogEventLevel.Warning)
     .WriteTo.Console()
     );
+builder.Services.AddScoped<IAccountService,AccountService>();
 builder.Services.AddDbContext<dbcontextproduct>(op => op.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers().AddJsonOptions(o => o.JsonSerializerOptions
                 .ReferenceHandler = ReferenceHandler.Preserve); 
@@ -70,6 +72,7 @@ app.UseCors(op => op.AllowAnyOrigin().AllowAnyHeader());
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers(); 
+//app.UseHttpsRedirection();
 app.MapHub<Habchat>("/chat");
 app.UseSerilogRequestLogging();
 Log.Logger.Information("|app run|");

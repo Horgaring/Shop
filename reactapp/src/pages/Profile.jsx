@@ -13,7 +13,7 @@ const Profile = () =>{
     const [prod,ap] = React.useState([])
     React.useEffect(() => {
             
-            axios.get(`${Url}/api/Account/GetAcc/${id}`,{headers: {Authorization: `Bearer ${window.localStorage.getItem(`token`)}`}} ).then(res => { 
+            axios.get(`${Url}/api/Account/${id}`,{headers: {Authorization: `Bearer ${window.localStorage.getItem(`token`)}`}} ).then(res => { 
               a(res.data)
               ap(res.data.products.$values)
             }).catch(err => console.log(err)) 

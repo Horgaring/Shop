@@ -20,6 +20,7 @@
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -46,7 +47,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.0-preview.2.23128.3, )"
+              "version": "[7.0.5, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -54,7 +55,7 @@
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[7.0.1, )"
+              "version": "[7.0.4, )"
             },
             "Serilog": {
               "target": "Package",

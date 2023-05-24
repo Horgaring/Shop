@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-
+using WEBAPP.Dbmodels;
 
 public class dbcontextproduct : DbContext{
        public DbSet<Product> product {get; set;} = null!;
        public DbSet<Account> Accounts {get; set;} = null!;
        public DbSet<Categ> Categ {get; set;} = null!;
-       public DbSet<JWTdb> Refresh {get; set;} = null!;
-       public DbSet<AccountChatModel> AccountChatModel {get; set;}
+       public DbSet<JWTModel> Refresh {get; set;} = null!;
+      
        public DbSet<ChatModel> Group {get; set;} = null!;
         public  dbcontextproduct(DbContextOptions<dbcontextproduct> options) : base(options)
         {
@@ -27,7 +27,6 @@ public class dbcontextproduct : DbContext{
           modelBuilder.Entity<ChatModel>().Property(p=>p.UnreadMessages).HasDefaultValue(string.Empty);
           modelBuilder.Entity<Account>().Property(p => p.Wallet).HasDefaultValue<int>(0);
           modelBuilder.Entity<Account>().HasIndex(p => p.Name).IsUnique();
-          modelBuilder.Entity<AccountChatModel>().HasKey(u => new { u.GroupsId, u.UsersId});
           modelBuilder.Entity<Account>()
             .HasMany(p => p.Groups)
             .WithMany(p => p.Users);

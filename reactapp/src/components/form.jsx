@@ -4,8 +4,7 @@ import {Regacc,CreateProd, GetCateg} from '../api/accapi'
 import { HiOutlinePlus, HiX } from 'react-icons/hi';
 import { IconContext } from 'react-icons';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios"
-import {Url} from '../api/accapi'
+
 
 
 export   function Form(){
@@ -18,8 +17,11 @@ export   function Form(){
             pr.append('Name',Name)
             pr.append('Email',Email)
             pr.append('Password',Password)
-            pr.append('File',File)       
-        navigate('/katalog/1')
+            pr.append('File',File)      
+            for (var pair of pr.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+        //navigate('/katalog/1')
         Regacc(pr)
         
     }
@@ -32,7 +34,7 @@ export   function Form(){
     const [File,setFile] = React.useState(); 
    
 return(<div className="div">
-<form onSubmit={e => event_form(e)}>
+<form >
                 
                 <p>    
                     <input  placeholder="Name" className="popa" type="text" maxLength={20} required value={Name.value} onChange={e => setName(e.target.value)} />
@@ -44,10 +46,10 @@ return(<div className="div">
                     <input placeholder="Password" className="popa" type="password" minLength={8} required value={Password.value} onChange={e => setPassword(e.target.value)} />
                 </p>
                 <p>        
-                    <input  type="file"  onChange={e => setFile(e.target.files[0])}/>
+                    <input  type="file" required  onChange={e => setFile(e.target.files[0])}/>
                 </p>
                 <p >
-                    <input type="submit" value="Sign"   className="button" placeholder="Sign" />
+                    <input type="button" value="Sign" onClick={e => event_form(e)}   className="button" placeholder="Sign" />
                 </p>
                 
                 </form>
@@ -81,7 +83,7 @@ export   function Formprod(){
     const [File,setFile] = React.useState(); 
    
     React.useEffect(() => {
-        axios.get(`${Url}/api/Product/GetCateg`).then(res => { 
+        GetCateg().then(res => { 
             setcateg2(res.data)
         }).catch(err => console.log(err)) 
     },[]);

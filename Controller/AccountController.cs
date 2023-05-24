@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Serilog;
+using WEBAPP.Dbmodels;
 
 [Route("api/[controller]/")]
 [ApiController]
@@ -18,52 +19,40 @@ public class AccountController : Controller{
     
     [HttpPost("Sigin")]
     public JsonResult sigin([FromForm] AccountLogin pr){
-        //log.LogInformation(HttpContext.User.Identity.IsAuthenticated.ToString());
-        log.Information(pr.Email);
-       var acc = db.Accounts.ToArray().FirstOrDefault(e => e.Email == pr.Email);
-        var Refreshtoken = JWTModel.rnd();
-        db.Refresh.Add(new JWTdb() {Refreshtoken = Refreshtoken,Time = DateTime.UtcNow});
+        var acc = db.Accounts.ToArray().FirstOrDefault(e => e.Email == pr.Email);
+        string Refreshtoken = JWTRequest.rnd();
+        db.Refresh.Add(new JWTModel() {Refreshtoken = Refreshtoken,Time = DateTime.UtcNow});
         db.SaveChanges();
-        return Json(new JWTModel() {Accesstoken = JWTModel.jwtcreator(acc.Name,pr.Email), Refreshtoken = Refreshtoken});
+        var resp =new JWTRequest{Refreshtoken = Refreshtoken,Accesstoken = JWTRequest.jwtcreate(acc.Name,acc.Email)};
+        return Json(resp);
     }
     [HttpGet("isauth")]
     [Authorize()]
-    public IActionResult Founduser([FromServices] IRepository memoryCache){
-        Account? User = null;
-        foreach (var item in HttpContext.User.Claims)
-            if( item.Type == "Email") 
-               User = db.Accounts.AsNoTracking().Include(p => p.Products).FirstOrDefault(p => p.Email == item.Value);
-        
+    public IActionResult Founduser([FromServices] IAccountService maneg){
+        Account User = maneg.GetUser();
         return   Json(new {Wallet = User!.Wallet, Ref = db.Group.AsNoTracking().FirstOrDefault(p => p.Users.Contains(User) == true),Name = User.Name });
-        
     }
 
-    [HttpGet("GetAcc/{id?}")]
+    [HttpGet("{id?}")]
     [Authorize]
-    public IActionResult getacc(int id){
-        string a = "";string b = "";
+    public IActionResult getacc(int id,[FromServices] IAccountService maneg){
         if (id == 0){
-            foreach (var item in HttpContext.User.Claims){
-                if( item.Type == "Name") 
-                    a = item.Value;
-                if( item.Type == "Password") 
-                    b = item.Value;
-            }
-            return Json(db.Accounts.Include(p => p.Products).FirstOrDefault(p => p.Name == a && p.Password == b));
+            Account a = maneg.GetUser();
+            return Json(new {Name = a.Name,PathImage = a.PathImage,Products = a.Products});
         }
         return Json(db.Accounts.Include(p => p.Products).FirstOrDefault(p => p.Id == id));
     }
-    
+    [Consumes("multipart/form-data")]
     [HttpPost("reg")]
-    public IActionResult register([FromForm] AccountDTO pr){ 
+    public IActionResult register([FromForm] AccountRequest pr){ 
         log.Debug("\t"+pr.Name + "\n"+ "\t"+pr.Email + "\n"+"\t"+pr.Password + "\n");
         log.Debug( ("Valid "+ModelState.IsValid).ToString());
         if(!ModelState.IsValid){return BadRequest();}     
         db.Accounts.Add(Account.Create(pr));
-        var Refreshtoken = JWTModel.rnd();
-        db.Refresh.Add(new JWTdb() {Refreshtoken = Refreshtoken,Time = DateTime.UtcNow});
+        var Refreshtoken = JWTRequest.rnd();
+        db.Refresh.Add(new JWTModel() {Refreshtoken = Refreshtoken,Time = DateTime.UtcNow});
         db.SaveChanges();
-        return Json(new JWTModel() {Accesstoken = JWTModel.jwtcreator(pr.Name,pr.Email), Refreshtoken = Refreshtoken});
+        return Json(new JWTRequest() {Accesstoken = JWTRequest.jwtcreate(pr.Name,pr.Email), Refreshtoken = Refreshtoken});
     }
     
     

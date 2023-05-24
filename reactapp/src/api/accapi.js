@@ -1,5 +1,5 @@
 import axio from "axios"
-import { useNavigate } from 'react-router-dom';
+
 
 const axios = axio.create({headers: {Authorization: `Bearer ${window.localStorage.getItem(`token`)}`}});
 export const Url = 'http://localhost:5136'
@@ -8,7 +8,7 @@ const setlocal = (res) =>{
         window.localStorage.setItem(`refreshtoken`,res.data.refreshtoken)
 } 
 export  const Regacc =  (item) => {
-    axios.post(`${Url}/api/Account/reg`,JSON.stringify(item), {headers: {"Content-Type": "application/json"}}).then(res => { 
+    axios.post(`${Url}/api/Account/reg`,item, {headers: {"Content-Type": "multipart/form-data"}}).then(res => { 
         setlocal(res)
     }).catch(err => console.log(err))
 }
@@ -22,13 +22,15 @@ export const GetProd =  (id,cat,sear='') =>   axios.get(Url + `/api/Product/prod
 export const isautch = () => axios.get(Url + "/api/Account/isauth" )
 export const GetCateg = () => axios.get(`${Url}/api/Product/categs`)
 export const GetProd_id =  (id) =>   axios.get(Url + `/api/Product/products/${id}`)
-export const Sigin = (form) => axios.post(`${Url}/api/Account/Sigin`,form).then(e => {console.log(e.data);setlocal(e)})
+export const Sigin = (form) => axios.post(`${Url}/api/Account/Sigin`,form).then(e => {console.log(e);setlocal(e)}).catch(e => console.log(e))
 export const DeleteProd = (id) => axios.delete(Url + `/api/Product/products/${id}`)
-//const navigate = useNavigate()
-axios.interceptors.response.use(function (response) {
-    if (response.status == 401) {
-        console.log('||||||||||  interceptor is active  ||||||||||')
-        axios.post(`${Url}/api/Refresh/refr`,{Accesstoken: window.localStorage.getItem(`token`),Refreshtoken: window.localStorage.getItem(`refreshtoken`)}).then(res => setlocal(res)).catch((err) => console.log('|||||'+ err)) //navigate('/sigin'))
+
+axios.interceptors.response.use( (response) => response,err => {
+    console.log(err.response.status)
+    if (err.response.status == 401) {
+        axios.post(`${Url}/api/Refresh/refr`,{Accesstoken: window.localStorage.getItem(`token`),Refreshtoken: window.localStorage.getItem(`refreshtoken`)}).then(res => setlocal(res)).catch((err) => document.location.href = '/')
+        
     }
-    return response;
+    return err;
 });
+

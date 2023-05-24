@@ -1,0 +1,4 @@
+class ProductService: IProductService
+{
+    
+}

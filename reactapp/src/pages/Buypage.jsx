@@ -44,7 +44,7 @@ const messageElement1= (name = 'Me',mess,right) =>{
     React.useEffect(() => {
         isautch().then(res => setname(res.data.name));
         document.getElementById("mass").appendChild(messageElement1('12346346743576','aboab'));
-        GetProd_id(id).then(res => setprod(res.data))
+        //GetProd_id(id).then(res => setprod(res.data))
         console.log(conid)
             hubConnection.on("Receive", function(message,username) {
                 console.log(`${username}:${message}|||||||||||recive`)
