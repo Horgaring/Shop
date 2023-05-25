@@ -23,12 +23,11 @@ export const isautch = () => axios.get(Url + "/api/Account/isauth" )
 export const GetCateg = () => axios.get(`${Url}/api/Product/categs`)
 export const GetProd_id =  (id) =>   axios.get(Url + `/api/Product/products/${id}`)
 export const Sigin = (form) => axios.post(`${Url}/api/Account/Sigin`,form).then(e => {console.log(e);setlocal(e)}).catch(e => console.log(e))
-export const DeleteProd = (id) => axios.delete(Url + `/api/Product/products/${id}`)
+export const DeleteProd = (id) => axios.delete(Url + `/api/Product/products/${id}`).then(e => {console.log(e)}).catch(e => {console.log(e)});
 
 axios.interceptors.response.use( (response) => response,err => {
-    console.log(err.response.status)
     if (err.response.status == 401) {
-        axios.post(`${Url}/api/Refresh/refr`,{Accesstoken: window.localStorage.getItem(`token`),Refreshtoken: window.localStorage.getItem(`refreshtoken`)}).then(res => setlocal(res)).catch((err) => document.location.href = '/')
+        axios.post(`${Url}/api/Oauth`,{Accesstoken: window.localStorage.getItem(`token`),Refreshtoken: window.localStorage.getItem(`refreshtoken`)}).then(res => setlocal(res)).catch((err) => window.location.href = '/')
         
     }
     return err;

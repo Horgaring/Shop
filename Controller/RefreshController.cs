@@ -14,7 +14,7 @@ public class RefreshController: Controller{
     
     [HttpPost("Oauth")]
     public IActionResult refr([FromBody]JWTRequest mod){
-        var token = db.Refresh.FirstOrDefault(p => p.Refreshtoken == mod.Refreshtoken);
+        var token = db.Refresh.SingleOrDefault(p => p.Refreshtoken == mod.Refreshtoken);
         
         if (token == null){
             

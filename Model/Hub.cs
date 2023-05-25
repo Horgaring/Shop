@@ -52,6 +52,7 @@ public class Habchat : Hub{
             if(!cache.TryGetValue(Context.ConnectionId,out a)){
                 throw new NullReferenceException("Account not found");
             }
+            db.Attach<Account>(a);
             if (GroupName != null){
                 group = await db.Group
                 .Include(p => new {p.Users,p.Product})

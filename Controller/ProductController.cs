@@ -26,9 +26,9 @@ public class ProductController : Controller
         
     }
 
-    [HttpGet("image/{id?}")]
-    public IActionResult Getimg(string id){
-        return PhysicalFile(@"G:\app\WEBAPP\img\" + id,"image/webp");
+    [HttpGet("image/{path?}")]
+    public IActionResult Getimg(string path, [FromServices] IWebHostEnvironment host){
+        return PhysicalFile(host.ContentRootPath +@"/img/" + path,"image/webp");
     }
     [HttpGet("categs")]
     public IActionResult Getcateg() => Json(db.Categ.ToArray());
@@ -41,7 +41,7 @@ public class ProductController : Controller
         Account User = maneg.GetUser();
         List<Categ> categ2 = new();
         for (int i = 0; i < categ.Length; i++){
-            categ2.Add(db.Categ.FirstOrDefault(p => p.Name == categ[i].Trim(new char[]{'"','/','%','&'}))!);
+            categ2.Add(db.Categ.SingleOrDefault(p => p.Name == categ[i].Trim(new char[]{'"','/','%','&'}))!);
         }
         Product pro = new Product(pr.Name){Description = pr.Description,Price = pr.Price,categ=categ2};
         pro.accountId = User.Id;
@@ -58,10 +58,10 @@ public class ProductController : Controller
     public async Task<IActionResult> remove(int id,[FromServices] IAccountService maneg)
     {
         var a = maneg.GetUser();
-        Product? product = await db.product.Include(p => p.account).FirstOrDefaultAsync(p => p.Id == id);
+        Product? product =  db.product.Find(id);
         if(product == null || a == null)
             return BadRequest("пользователь или продукт не наден");
-        if(a != product.account)
+        if(a.Id != product.accountId)
             return BadRequest("н");
         db.product.Remove(product);
         await db.SaveChangesAsync();

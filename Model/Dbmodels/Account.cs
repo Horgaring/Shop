@@ -13,6 +13,7 @@ public class Account{
     [MinLength(8)]
     public string Password { get; set; } = null!;
     public string PathImage { get; set; } = null!;
+    public string Description { get; set; } = null!;
     public int Wallet { get; set; }
     public List<Product>? Products { get; set; }
     public List<ChatModel>?  Groups { get; set; }

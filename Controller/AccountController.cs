@@ -32,7 +32,10 @@ public class AccountController : Controller{
         Account User = maneg.GetUser();
         return   Json(new {Wallet = User!.Wallet, Ref = db.Group.AsNoTracking().FirstOrDefault(p => p.Users.Contains(User) == true),Name = User.Name });
     }
-
+    [HttpGet("image/{path?}")]
+    public IActionResult Getimg(string path, [FromServices] IWebHostEnvironment host){
+        return PhysicalFile(host.ContentRootPath +@"/img/Account/" + path,"image/webp");
+    }
     [HttpGet("{id?}")]
     [Authorize]
     public IActionResult getacc(int id,[FromServices] IAccountService maneg){

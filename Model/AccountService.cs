@@ -12,6 +12,7 @@ public class AccountService : IAccountService{
         var email = Accessor.HttpContext!.User!.Claims.First(p => p.Type == "Email").Value;
        return db.Accounts
                 .AsNoTracking()
+                .Include(p => p.Products)
                 .First(p => p.Email == email);
     }
 

@@ -30,6 +30,7 @@ public class dbcontextproduct : DbContext{
           modelBuilder.Entity<Account>()
             .HasMany(p => p.Groups)
             .WithMany(p => p.Users);
+          modelBuilder.Entity<Account>().Property(p => p.Description).HasDefaultValue("No data");
           modelBuilder.Entity<Product>()
           .HasOne(p => p.account)
           .WithMany(p => p.Products)
