@@ -54,7 +54,14 @@ builder.Services.AddSignalR(op => {
         op.EnableDetailedErrors = true;
     }
 });
-builder.Services.AddCors();
+var policy = builder.Configuration.GetValue<string>("CorsOrigin");
+Log.Information("CORS Policy {Policy}",policy);
+builder.Services.AddCors(option => option.AddPolicy("React",pbuilder => {
+    pbuilder.WithOrigins(builder.Configuration.GetValue<string>("CorsOrigin")!);
+    pbuilder.AllowAnyMethod();
+    pbuilder.AllowAnyHeader();
+    pbuilder.AllowCredentials();
+}));
 builder.Host.UseSerilog((cbx,lc) =>lc
     .WriteTo.File("./Logs/log.txt",LogEventLevel.Warning)
     .WriteTo.Console()
@@ -68,7 +75,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
 });
-app.UseCors(op => op.AllowAnyOrigin().AllowAnyHeader());
+app.UseCors("React");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers(); 
