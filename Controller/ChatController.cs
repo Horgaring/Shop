@@ -1,20 +1,21 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WEBAPP.Dbmodels;
 
-[Route("api/[controller]")]
+//[Route("api")]
 [ApiController]
-class ChatController : Controller{
+public class ChatController : Controller{
     public dbcontextproduct db;
     
     public ChatController(dbcontextproduct db) => this.db = db;
 
-    [HttpGet()]
+    [HttpGet("api/chat")]
     [Authorize]
-    public IActionResult GetAllChat( [FromServices] IAccountService maneg){
+    public IActionResult GetChats( [FromServices] IAccountService maneg){
         Account User = maneg.GetUser();
-        return Json(User!.Groups!.Select(p => p.GroupName.ToString()));
+
+        return Json(new{Groups = User!.Groups!
+            .Select(p => new{GroupName = p.GroupName.ToString(),productId = p.productId,Notification = p.Messages.Where(p => p.Account == User && p.IsRead == false).Count() ,Users = p.Users.Where(p => p.Id != User.Id).Select(p => new{PathImage = p.PathImage,Name = p.Name})})});
     }
 
     

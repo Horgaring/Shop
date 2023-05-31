@@ -216,3 +216,5 @@ G:\app\web-app\obj\Debug\net7.0\WEBAPP.pdb
 G:\app\web-app\obj\Debug\net7.0\WEBAPP.genruntimeconfig.cache
 G:\app\web-app\obj\Debug\net7.0\ref\WEBAPP.dll
 G:\app\web-app\bin\Debug\net7.0\reactapp\package-lock.json
+G:\app\web-app\bin\Debug\net7.0\reactapp\build\asset-manifest.json
+G:\app\web-app\bin\Debug\net7.0\reactapp\build\manifest.json

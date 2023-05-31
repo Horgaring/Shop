@@ -6,6 +6,7 @@ import Kata from "./pages/katalog";
 import Prodadd from './pages/AddProd'
 import Profile from './pages/Profile'
 import Buypage from './pages/Buypage'
+import {Chatlist} from './pages/ChatsList'
 
 function App() {
    
@@ -14,11 +15,12 @@ function App() {
       <Router>
          <Routes>
           <Route path="/" element = {<Main/>} />
-          <Route path="/sigin" element = {<Sig/>} />
+          <Route path="/Reg" element = {<Sig/>} />
           <Route path="/katalog" element = {<Kata/>} />
           <Route path="/AddProd" element = {  <Prodadd/> } />
           <Route path="/Profile/:id" element = {  <Profile/> } />
           <Route path="/Buy/:id" element = {  <Buypage/> } />
+          <Route path="/Chats" element = {  <Chatlist/> } />
          </Routes>
       </Router>
       </div>

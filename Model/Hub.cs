@@ -31,85 +31,77 @@ public  class castombinder : IModelBinder
 [Authorize]
 public class Habchat : Hub{
     dbcontextproduct db;
-    Serilog.ILogger log = Log.Logger;
     IMemoryCache cache;
+    Serilog.ILogger log = Log.Logger;
+    
      IAccountService maneg;
-    public Habchat(dbcontextproduct db ,IMemoryCache cache,[FromServices] IAccountService maneg) => 
-        (this.db,this.cache,this.maneg) = (db,cache,maneg);
+    public Habchat(dbcontextproduct db ,IAccountService maneg,IMemoryCache cache) => 
+        (this.db,this.maneg,this.cache) = (db,maneg,cache);
     public override Task OnConnectedAsync(){
-        cache.Set(Context.ConnectionId,maneg.GetUser());
+       
         return base.OnConnectedAsync();
     }
-    public override Task OnDisconnectedAsync(Exception? exception){
-        cache.Remove(Context.ConnectionId);
+    public  override Task OnDisconnectedAsync(Exception? exception){
+        int id;
+        cache.TryGetValue(Context.ConnectionId,out id);
+        db.Group.Find(id)!.Online--;
+        db.SaveChanges();
         return base.OnDisconnectedAsync(exception);
     }
     [Authorize]
     public async Task Enter(int Id_Product, string? GroupName = null){
         
             ChatModel?  group;
-            Account? a;
-            if(!cache.TryGetValue(Context.ConnectionId,out a)){
-                throw new NullReferenceException("Account not found");
-            }
+            Account? a = maneg.GetUser();
             db.Attach<Account>(a);
-            if (GroupName != null){
+            if (GroupName is not null){
                 group = await db.Group
-                .Include(p => new {p.Users,p.Product})
+                .Include(p => p.Product)
+                .Include(p => p.Users)
+                .Include(p => p.Messages)
                 .SingleOrDefaultAsync(p => p.Users.Contains(a) && p.GroupName.ToString() == GroupName);
             }
             else{
                 group = await db.Group
                 .Include(p => p.Users)
                 .Include(p => p.Product)
+                .Include(p => p.Messages)
                 .SingleOrDefaultAsync(p => p.Users.Contains(a) && p.productId == Id_Product);
             }
             if ( group == null && a != null) {
                 var guid = Guid.NewGuid();
                 await Groups.AddToGroupAsync(Context.ConnectionId, guid.ToString());
-                var prod = db.product.Include(p => p.account).AsNoTracking().First(p => p.Id == Id_Product);
-                db.Group.Add(new ChatModel{GroupName = guid,Product = prod,Users = new List<Account>(){a,prod.account}});
-                db.SaveChanges();
+                var prod = db.product.Include(p => p.account).First(p => p.Id == Id_Product);
+                db.Group.Add(new ChatModel{GroupName = guid,Product = prod,Users = new List<Account>(){prod.account,a},Online = 1,Messages = new()});
                 await Clients.Group(guid.ToString()).SendAsync("Receive", $"{Context.ConnectionId} вошел в чат");
             }
             else if(group != null  ){
+                group.Online++;
                 await Groups.AddToGroupAsync(Context.ConnectionId, group.GroupName.ToString());
-                var mass = group.UserMessage.Split(".");
-                if (group.UnreadMessages != string.Empty){
-                    mass = mass.Concat(group.UnreadMessages!.Split(".")).ToArray();
-                    group.UnreadMessages = string.Empty;
-                    group.UserMessage = string.Join('.',mass);
-                    db.SaveChanges();
+                var mass = group.Messages;
+                if (mass is not null){
+                foreach (var item in mass){
+                    if(item.accountId != a.Id) item.IsRead = true;
+                    await this.Clients.Caller.SendAsync("Receive", item.message,item.Account.Name);
+                }  
                 }
-                if (mass.Length == 2){
-                   await this.Clients.Caller.SendAsync("Receive", mass[1],mass[0]);
-                }
-                else{
-                    for (int i = 0; i < mass.Length/2; i += 2){
-                        await this.Clients.Caller.SendAsync("Receive", mass[i + 1],mass[i]);
-                    }
-                }
-                
-                
             }
-        
-        
-        
+        db.SaveChanges();
+        cache.Set(Context.ConnectionId,group.Id);
+
     }
     [Authorize]
-    public async Task Send(string message,int Id_Product ,string username)
+    public async Task Send(string message,int Id_Product ,string username,[FromServices] IAccountService maneg)
     {
-        Account? a;
-        if(!cache.TryGetValue(Context.ConnectionAborted,out a)){
-            throw new NullReferenceException("Account not found");
-        }
+        
+        Account? a = maneg.GetUser();
+        
         var group = await db.Group
-                .Include(p => new {p.Users,p.Product})
-                .AsNoTracking()
+                .Include(p => p.Users)
                 .SingleOrDefaultAsync(p => p.Users.Contains(a) && p.productId == Id_Product);
        
-            group.UserMessage += a.Name+"."+message+".";
-            db.SaveChanges();
+        db.Message.Add(new Message{Group = group,Account = a,message = message,IsRead = group.Online == 2});
+        db.SaveChanges();
         
         await this.Clients.Group(group.GroupName.ToString()).SendAsync("Receive", message,username);
         

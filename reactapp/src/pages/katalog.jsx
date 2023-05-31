@@ -1,13 +1,10 @@
 import img from '../img/R.jpg';
 import React from "react";
-import {  useParams } from "react-router-dom"
-import { IoMdNotifications,IoMdChatboxes } from 'react-icons/io';
-import { BsFillPersonFill } from 'react-icons/bs';
 import { ImSearch } from 'react-icons/im';
 import { IconContext } from 'react-icons';
 import "../css/katalog.css"
-
-import {Url, GetProd, isautch,GetCateg} from '../api/accapi'
+import {Panel} from '../components/panel'
+import {Url, GetProd,GetCateg} from '../api/accapi'
 
 
 
@@ -15,15 +12,11 @@ import {Url, GetProd, isautch,GetCateg} from '../api/accapi'
 const Katalog = () => {
     
     const [ id,setid ] = React.useState(1);
-    let [addpr,i] = React.useState();
     let [item,ig] = React.useState([]);
-    let [ref,refs] = React.useState([]);
-    let [Wallet,setwal] = React.useState();
     let [categ,gc] = React.useState([]);
     let [prodleng,prodlen] = React.useState();
     let sele = React.useRef();
     let inp = React.useRef();
-   
     function anav(){
         const list = []
         const i = id - 3
@@ -37,14 +30,7 @@ const Katalog = () => {
         console.log(id)
         GetProd(id,sele.current.value,inp.current.value != ''?`?sear=${inp.current.value}` : '').then(arr => {console.log('|||||||||||||||||||||4'+arr);ig(arr.data.prod.$values);prodlen(arr.data.length);console.log(arr)} )
         GetCateg().then(res => gc(res.data))
-        isautch().then(res => {
-            
-            if(res.status == 200) {
-                i(<div><a href='/addprod' className='Add_Prod'>Add Product</a></div>)
-                setwal(res.data.wallet)
-                refs(res.data.ref.$values)
-            }
-            }).catch(e => console.log(e))
+        
     },[id])
     const click = () => {
         setid(1);
@@ -57,20 +43,7 @@ const Katalog = () => {
     <div>
         
         <div className='text_catalog'>
-        
-            {addpr}
-            <div><a >{Wallet} RUB </a></div>
-            <IconContext.Provider value={{size: '30px'}}>
-                <div><a href='/Chats'><IoMdChatboxes/> </a></div>
-            </IconContext.Provider>
-            <IconContext.Provider value={{size: '30px'}}>
-                <ul><IoMdNotifications/> {ref?.map((key,ind) => <li key={ind}><a href={'/Buy/' + key}>сообщение</a></li>)}</ul>
-            </IconContext.Provider>
-            <IconContext.Provider value={{size: '30px'}}>
-                <div><a href='/Profile/0'><BsFillPersonFill/> </a></div>
-            </IconContext.Provider>
-            
-        
+        <Panel/>
         </div>
 
         <div className="Filters">

@@ -6,10 +6,11 @@
     
 }
 .chat{
-    display: inline-block;
-    position: absolute;
+    
+    margin-top: auto;
+    margin-bottom: auto;
     height: 90vh;
-    width: 36%;
+    width: 70%;
     background-color: #424242;
     
 }
@@ -84,7 +85,7 @@ cursor: pointer;
     display: flex;
 }
 .main-buy{
-    
+    display: flex;
     margin: auto;
     background-color: azure;
     width: 90vw;

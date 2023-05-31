@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace WEBAPP.Migrations
 {
     [DbContext(typeof(dbcontextproduct))]
-    partial class dbcontextproductModelSnapshot : ModelSnapshot
+    [Migration("20230529200319_addMessage")]
+    partial class addMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,8 +126,16 @@ namespace WEBAPP.Migrations
                     b.Property<Guid>("GroupName")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Online")
-                        .HasColumnType("integer");
+                    b.Property<string>("UnreadMessages")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("");
+
+                    b.Property<string>("UserMessage")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("");
 
                     b.Property<int>("productId")
                         .HasColumnType("integer");
@@ -158,14 +169,10 @@ namespace WEBAPP.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("IsRead")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                        .HasColumnType("boolean");
 
                     b.Property<DateTimeOffset>("Time")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("now()");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("accountId")
                         .HasColumnType("integer");
@@ -268,7 +275,7 @@ namespace WEBAPP.Migrations
                         .IsRequired();
 
                     b.HasOne("WEBAPP.Dbmodels.ChatModel", "Group")
-                        .WithMany("Messages")
+                        .WithMany()
                         .HasForeignKey("groupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -292,11 +299,6 @@ namespace WEBAPP.Migrations
             modelBuilder.Entity("WEBAPP.Dbmodels.Account", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("WEBAPP.Dbmodels.ChatModel", b =>
-                {
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

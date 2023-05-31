@@ -6,6 +6,8 @@ import facebook from "../iconnet/facebook.svg";
 import inst from "../iconnet/inst.svg";
 import {Sigin} from '../api/accapi'
 import f from '../img/OIP30.png';
+import { useNavigate } from "react-router-dom";
+import {Panel} from '../components/panel'
 
 export default function Main(){
         
@@ -31,26 +33,22 @@ export default function Main(){
             document.querySelectorAll('.anim').forEach((i) => ob.observe(i))
         }
         ,[])
-        //console.log(navigator.userAgent);
+        const nav = useNavigate()
         const submit = ()=>{
-            console.log('~~~~~~~~~~'+Email)
+            
             const formd = new FormData()
             formd.append('Email', Email)
             formd.append('Password',password)
             Sigin(formd)
+           window.location = '/katalog'
         }
         return(
            <>
+           <div className='text_catalog'>
+        <Panel/>
+        </div>
             <header>
-            <div className="div2" >
-                
-                <div className="diva" >
-                   <div   id="abeme"  className="Box" ><a href="/">Category</a></div>
-                   <div   className="Box"  >< a  href="/katalog/1">Каталог</a></div>
-                    <div  className="Box" ><a  href="/">Ссылка</a></div>
-                    <div  className="Box" ><a  href="/">Ссылка</a></div>
-                </div>
-            </div>
+            
             
            <div className="frame"></div>
             
@@ -66,10 +64,11 @@ export default function Main(){
                 </p>
     
                 <p >
-                    <input  type="button" onClick={submit} value="Sign"  className="button" placeholder="Sign" />
+                    <input  type="Submit"   value="Sign"  className="button" placeholder="Sign" />
                 </p>
-                
+                <a  href="/Reg">Register</a>
                 </form>
+                
                 <div className="Network">
                     <a href="/" className="inst"><img src={inst} width="40" height="40"/></a>
                     <a href="/" className="facebook"><img src={facebook} width="40" height="40" /></a>
@@ -92,9 +91,7 @@ export default function Main(){
                     В целом, VirtualVendor - это прогрессивная платформа в мире продажи игровых предметов, которая предоставляет своим клиентам высококачественный сервис, безопасность, и огромный выбор продуктов. Они продолжают инвестировать в новые технологии и инструменты, чтобы обеспечить своим клиентам наилучший опыт покупки и продажи игровых предметов на рынке.
                 </div>
             </div>
-            <footer>
-                any text
-            </footer>
+            
             
            </>
 

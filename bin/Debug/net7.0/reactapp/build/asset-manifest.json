@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/static/css/main.dd752996.css",
+    "main.js": "/static/js/main.02b3a39e.js",
+    "static/media/OIP.png": "/static/media/OIP.e23c969929330589b4be.png",
+    "static/media/OIP30.png": "/static/media/OIP30.02684cdec26c8752ad64.png",
+    "static/media/OIP3.png": "/static/media/OIP3.59982ccdab1965639023.png",
+    "static/media/R2.jpg": "/static/media/R2.9b8e01915d2574677790.jpg",
+    "static/media/1659745075_73-kartinkin-net-p-goluboi-fon-dlya-fotoshopa-krasivo-75.jpg": "/static/media/1659745075_73-kartinkin-net-p-goluboi-fon-dlya-fotoshopa-krasivo-75.7c23d48d340a9d9a5521.jpg",
+    "static/media/OIP10.jpg": "/static/media/OIP10.93d534659c38666f377b.jpg",
+    "static/media/R.jpg": "/static/media/R.f1eeccb624fc143d35f3.jpg",
+    "static/media/logo.svg": "/static/media/logo.7fc623e0ba6f567247f9.svg",
+    "static/media/youtube.svg": "/static/media/youtube.39d9e33931d4f1dd04c82b9855505af3.svg",
+    "static/media/inst.svg": "/static/media/inst.3d7a189ec9122879cfeeda84dd447987.svg",
+    "index.html": "/index.html",
+    "static/media/facebook.svg": "/static/media/facebook.488bae19297c9387ad2d74cd450713d9.svg",
+    "main.dd752996.css.map": "/static/css/main.dd752996.css.map",
+    "main.02b3a39e.js.map": "/static/js/main.02b3a39e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dd752996.css",
+    "static/js/main.02b3a39e.js"
+  ]
+}

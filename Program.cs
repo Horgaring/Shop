@@ -79,7 +79,7 @@ app.UseCors("React");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers(); 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 app.MapHub<Habchat>("/chat");
 app.UseSerilogRequestLogging();
 Log.Logger.Information("|app run|");

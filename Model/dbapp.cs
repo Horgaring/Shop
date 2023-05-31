@@ -6,7 +6,7 @@ public class dbcontextproduct : DbContext{
        public DbSet<Account> Accounts {get; set;} = null!;
        public DbSet<Categ> Categ {get; set;} = null!;
        public DbSet<JWTModel> Refresh {get; set;} = null!;
-      
+        public DbSet<Message> Message {get; set;} = null!;
        public DbSet<ChatModel> Group {get; set;} = null!;
         public  dbcontextproduct(DbContextOptions<dbcontextproduct> options) : base(options)
         {
@@ -23,10 +23,10 @@ public class dbcontextproduct : DbContext{
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          modelBuilder.Entity<ChatModel>().Property(p=>p.UserMessage).HasDefaultValue(string.Empty);
-          modelBuilder.Entity<ChatModel>().Property(p=>p.UnreadMessages).HasDefaultValue(string.Empty);
           modelBuilder.Entity<Account>().Property(p => p.Wallet).HasDefaultValue<int>(0);
           modelBuilder.Entity<Account>().HasIndex(p => p.Name).IsUnique();
+          modelBuilder.Entity<Message>().Property(p => p.IsRead).HasDefaultValue<bool>(true);
+          modelBuilder.Entity<Message>().Property(p => p.Time).HasDefaultValueSql("now()");
           modelBuilder.Entity<Account>()
             .HasMany(p => p.Groups)
             .WithMany(p => p.Users);

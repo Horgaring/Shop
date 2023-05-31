@@ -3,7 +3,7 @@ import '../css/regis.css'
 import {Regacc,CreateProd, GetCateg} from '../api/accapi'
 import { HiOutlinePlus, HiX } from 'react-icons/hi';
 import { IconContext } from 'react-icons';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 
 
 
@@ -17,13 +17,14 @@ export   function Form(){
             pr.append('Name',Name)
             pr.append('Email',Email)
             pr.append('Password',Password)
+            pr.append('Description',Description)
             pr.append('File',File)      
             for (var pair of pr.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
-        //navigate('/katalog/1')
-        Regacc(pr)
         
+        Regacc(pr)
+        navigate('/katalog')
     }
 
    
@@ -32,9 +33,11 @@ export   function Form(){
     const [Name,setName] = React.useState(" ");
     const [Password,setPassword] = React.useState(" ");
     const [File,setFile] = React.useState(); 
+    const [Description,setDescription] = React.useState(" ");
    
 return(<div className="div">
-<form >
+    <div className="form">
+<form onSubmit={(e) => event_form(e)}>
                 
                 <p>    
                     <input  placeholder="Name" className="popa" type="text" maxLength={20} required value={Name.value} onChange={e => setName(e.target.value)} />
@@ -45,14 +48,18 @@ return(<div className="div">
                 <p>        
                     <input placeholder="Password" className="popa" type="password" minLength={8} required value={Password.value} onChange={e => setPassword(e.target.value)} />
                 </p>
+                <p>    
+                    <input  placeholder="Description" className="popa" type="text" maxLength={420}  value={Description.value} onChange={e => setDescription(e.target.value)} required />
+                </p>
                 <p>        
                     <input  type="file" required  onChange={e => setFile(e.target.files[0])}/>
                 </p>
                 <p >
-                    <input type="button" value="Sign" onClick={e => event_form(e)}   className="button" placeholder="Sign" />
+                    <input type="submit"  value="Reg"   className="button"  />
                 </p>
                 
                 </form>
+                </div>
 </div>)
 }
 
@@ -60,7 +67,7 @@ export   function Formprod(){
     const navigate = useNavigate()
     const event_form = (e) => {
         
-        console.log(File)
+        
         const formd = new FormData()
         formd.append('Name', Name)
         formd.append('Description',Description)
@@ -69,7 +76,7 @@ export   function Formprod(){
         let param = ''
         categ.map(value => {param = param.concat(`categ="${value}"&`)})
         CreateProd(formd,param)
-        navigate('/katalog/1')
+        navigate('/katalog')
         
         
     }
@@ -91,20 +98,20 @@ export   function Formprod(){
 return(
     
 <div className="div">
-    
-<form >
+<div className="form">
+<form onSubmit={(e) => event_form(e)}>
                
                 <p>    
                     <input  placeholder="Name" className="popa" type="text" required value={Name.value} onChange={e => setName(e.target.value)} />
                 </p>
                 <p>    
-                    <input  placeholder="Description" className="popa" type="text"  value={Description.value} onChange={e => setDescription(e.target.value)} required />
+                    <input  placeholder="Description" maxLength={420} className="popa" type="text"  value={Description.value} onChange={e => setDescription(e.target.value)} required />
                 </p>
                 <p>        
                     <input placeholder="Price" className="popa" type="number" required value={Price.value} onChange={e => setPrice(e.target.value)}/>
                 </p>
                 <p>        
-                    <input  type="file"  onChange={e => setFile(e.target.files[0])}/>
+                    <input  type="file" required  onChange={e => setFile(e.target.files[0])}/>
                 </p>
                 <div id='category_prod'>
                     
@@ -115,10 +122,10 @@ return(
                     )}
                 </div>
                 <p >
-                    <input type="button"  value="Create" onClick={(e) => event_form(e)}  className="button"  />
+                    <input type="submit"  value="Create"   className="button"  />
                 </p>
                 
                 </form>
-                
+                </div>
 </div>)
 }

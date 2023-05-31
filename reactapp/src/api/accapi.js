@@ -24,6 +24,7 @@ export const GetCateg = () => axios.get(`${Url}/api/Product/categs`)
 export const GetProd_id =  (id) =>   axios.get(Url + `/api/Product/products/${id}`)
 export const Sigin = (form) => axios.post(`${Url}/api/Account/Sigin`,form).then(e => {console.log(e);setlocal(e)}).catch(e => console.log(e))
 export const DeleteProd = (id) => axios.delete(Url + `/api/Product/products/${id}`).then(e => {console.log(e)}).catch(e => {console.log(e)});
+export const GetChats = () => axios.get(Url + `/api/chat/`);
 
 axios.interceptors.response.use( (response) => response,err => {
     if (err.response.status == 401) {

@@ -5,32 +5,46 @@ import img from '../img/R.jpg';
 import axios from 'axios';
 import {Url,DeleteProd} from '../api/accapi'
 import {ImCross} from 'react-icons/im'
+import {MdOutlineModeEditOutline} from 'react-icons/md'
 import { IconContext } from "react-icons";
+import {Panel} from '../components/panel'
+import {Updateacc} from '../components/UpdateFormData'
 
 const Profile = () =>{
     const { id } = useParams();
-    const [aa,a] = React.useState({})
+    const [acc,setacc] = React.useState({})
     const [prod,ap] = React.useState([])
+    let [updateform,setupd] = React.useState();
+   
     React.useEffect(() => {
-            
+        
             axios.get(`${Url}/api/Account/${id}`,{headers: {Authorization: `Bearer ${window.localStorage.getItem(`token`)}`}} ).then(res => { 
-              a(res.data)
+              setacc(res.data)
               ap(res.data.products.$values)
             }).catch(err => console.log(err)) 
             
         
     },[])
-    console.log(prod)
-    console.log(aa)
     
+    const EditClick =()=>{
+        setupd(<Updateacc></Updateacc>)
+    }
     return(
         <main>
+            
+            <div className='text_catalog'>
+        <Panel/>
+        </div>
         
             <div className="Profile_head">
-                <img src={Url+"/api/Account/image/"+aa.pathImage}/>
-                <div className="data">Name {aa.name}</div>
-                <div className="data2">About me <p> {aa.Description}</p></div>
-
+            
+                {id == '0'?<IconContext.Provider value={{size: '40px' , color: 'blue'}} ><div  className='Edit' onClick={EditClick}><MdOutlineModeEditOutline/></div></IconContext.Provider>
+                    : null
+                    }
+                <img src={Url+"/api/Account/image/"+acc.pathImage}/>
+                <div className="data">Name {acc.name}</div>
+                <div className="data2">About me <p> {acc.Description}</p></div>
+                
             </div>
             <div className="Prod_profile">
             { prod.map(function(key2, i){
@@ -47,7 +61,9 @@ const Profile = () =>{
                 </div>
             )
            })}
+           
            </div>
+           {updateform}
         </main>
         
     )

@@ -1,0 +1,85 @@
+.conteiner{
+    
+    width: 1400px;
+    height: 100vh;
+    margin: auto;
+   
+    display: flex;
+    
+}
+.Chatlist{
+    width: 30%;
+    height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: #353434;
+    border: 2px solid rgb(70, 70, 70);
+}
+.Chatlist:first-child{
+    text-align: center;
+    
+}
+.Chat_conteiner{
+    width: 70%;
+    height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+    background-color: #353434;
+    border: 2px solid rgb(70, 70, 70);
+}
+.List{
+    
+    width: 100%;
+    height: 92%;
+    
+}
+
+.list-item{
+    width: 100%;
+    display: flex;
+    height: 90px;
+    border: 2px solid rgb(70, 70, 70);
+    cursor: pointer;
+    
+}
+.list-item  >img{
+    width: 60px;
+    display: inline-block;
+    height: 60px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    
+   border: 1px solid #000;
+    border-radius: 100%;
+    
+}
+
+.list-item  > div{
+    
+    width: 100%;
+   height: 90%;
+    margin-top: auto;
+    margin-bottom: auto;
+     
+ }
+.li_Name{
+    display: block;
+    
+    
+}
+.active{
+    background-color: #0ea3a3;
+}
+.nemas{
+    margin-top: 10px;
+    margin-right: 20px;
+    height: 20px;
+    width: 90px;
+    border-radius: 20px;
+    
+    float: right;
+    background-color: #0ea32e;
+    
+}
+
